@@ -111,12 +111,12 @@ expirationTimeInSeconds and/or serialNumber. By this data structure, it's super 
 
 NOTE: when some existing user session need be updated with another endDateTime (including expirationTimeInSeconds), we need remove it from this data structure at first, then update the user session, and finally put it back into this data structure.
 
-## (5) Work-flow of Main Class "DataAnalyzer"
+## (5) Work-flow of main class "DataAnalyzer"
 
 ### * Summary
 
 It's the core class of this project for dealing with business logics. Its primary functionalities include:
-{
+
   (a) read a request record from input file;
 
   (b) parse the request record, then either merge it into some existing user session or create a new user session with this info, and further update data buffers (ip2UserSessions and sortedUserSessions) with this user session;
@@ -124,11 +124,11 @@ It's the core class of this project for dealing with business logics. Its primar
   (c) whenever time changes according to incoming request records, check expired user sessions and print out them into output file;
 
   (d) when the end of input file is reached, print out all the user sessions still left in "sortedUserSessions" into output file.
-}
+
 
 ### * Initialization 
 
-{
+
   `reader`: open input data file (log.csv);
 
   `writer`: open output result file (sessionization.txt);
@@ -140,10 +140,10 @@ It's the core class of this project for dealing with business logics. Its primar
   `ip2UserSessions`: instantiate this data buffer using HashMap<String, UserSession>;
 
   `sortedUserSessions`: instantiate this data buffer using TreeSet<UserSession>.
-}
+
 
 ### * Process request records one by one (below are pseudo codes)
-
+{
 
    prevReqTime = 1L; // a local variable (in milliseconds)
 
@@ -186,7 +186,7 @@ It's the core class of this project for dealing with business logics. Its primar
 
    }
 
-   // the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
+   // Since the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
 
    // NOTE: since it's required that these user sessions be written out in the order in which they were listed in input file,
 
@@ -199,6 +199,7 @@ It's the core class of this project for dealing with business logics. Its primar
       write them into output file one by one.
    }
 
+}
 
 ### * clean up
 
