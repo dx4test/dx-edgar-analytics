@@ -1,18 +1,18 @@
 
 Code challenge for Analysis of SEC EDGAR Web Logs
 
-# 1. resources (references)
+# 1. Resources (references)
 
 * Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
 * EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
 
-# 2. my github repo "dx-edgar-analytics"
+# 2. My github repo "dx-edgar-analytics"
 
 https://github.com/dx4test/dx-edgar-analytics
 
 This repo directory structure is the same as that of Insight's Edgar-Analytics Repo.
 
-# 3. dependencies: Java, Maven and TestNG
+# 3. Dependencies: Java, Maven and TestNG
 	
 This project is implemented in Java, and compiled using Maven.
 	
@@ -57,9 +57,9 @@ Here is my local environment to compile and run this project:
 NOTE: I tried to avoid those new features of Java 1.8, so it might also work with other old versions of Java.
 In addition, both Eclipse IDE and bash shell script were able to compile and run this project successfully on MacOS Sierra.
 
-# 5. my solution to this code challenge of data engineering
+# 5. My solution to this code challenge of data engineering
 
-## (1) Serial Number
+## (1) Serial number
 
 This project requires that a collection of expired user sessions be written into output file in the order in which their 
 corresponding request log records were listed in input file if their ending date-time info and/or starting date-time
@@ -70,7 +70,7 @@ To meet the above requirements, a serial number counter of type long is introduc
 need be generated, the serial number counter is increased by one, and its current value is assigned to the user session. The
 serial number together with request data times helps ensure user sessions are written out in the specified order.
 
-## (2) Utility Class "DateTimeUtil"
+## (2) Utility class "DateTimeUtil"
 
 It helps combine together the date and time info of a request record into a string in format "yyyy-MM-dd HH:mm:ss", and then
 parse the combined string into an object of type java.util.Date.
@@ -80,7 +80,7 @@ It also keeps a global constant "ttlInSeconds" (i.e. inactivity period).
 NOTE: According to READ.md of the repo "insight edgar-analytics", we are required to consider only those fields in BOLD; the
 zone field is not in BOLD, so default time zone is used while parsing date and time info into a Date object.
 
-## (3) Model Class "UserSession"
+## (3) Model class "UserSession"
 
 It has the following class members:
 
@@ -100,7 +100,7 @@ To output a user session into output file, only the following info items are pri
 
     {ip, startDateTime,	endDateTime, "duration" (derived from startDateTime and endDateTime), docCount}
 
-## (4) data structures
+## (4) Data structures
 
 * HashMap "ip2UserSessions"
 
@@ -111,23 +111,16 @@ either merged into some existing user session, or used to generate a new user se
 
 * TreeSet "sortedUserSessions"
 
-Java class TreeSet is essentially a balanced binary search tree implemented through Red-Black Tree.
-Its add, remove, and contains methods have time complexity of O(logn); moreover, the time complexity
-is only O(1) for peeking and polling the elements from its head or tail.
+Java class TreeSet is essentially a balanced binary search tree implemented through Red-Black Tree. Its add, remove, and contains methods have time complexity of O(logn); moreover, the time complexity is only O(1) for peeking and polling the elements from its head or tail.
 
 It's used to maintain a collection of user sessions which are sorted in ascending order of
-expirationTimeInSeconds and/or serialNumber. By this data structure, it's super fast to check which
-user sessions have been expired by starting from its head; also it's still fast enough for adding
-and removing some user session to/from this data structure when inserting a new user session or
-updating some existing user session.
+expirationTimeInSeconds and/or serialNumber. By this data structure, it's super fast to check which user sessions have been expired by starting from its head; also it's still fast enough for adding and removing some user session to/from this data structure when inserting a new user session or updating some existing user session.
 
-NOTE: when some existing user session need be updated with another endDateTime (including expirationTimeInSeconds), 
-we need remove it from this data structure at first, then update the user session, and finally put it back into
-this data structure.
+NOTE: when some existing user session need be updated with another endDateTime (including expirationTimeInSeconds), we need remove it from this data structure at first, then update the user session, and finally put it back into this data structure.
 
 ## (5) Work-flow of Main Class "DataAnalyzer"
 
-* abstraction
+* Summary
 
 It's the core class of this project for dealing with business logics. Its primary functionalities include:
 
@@ -138,7 +131,7 @@ It's the core class of this project for dealing with business logics. Its primar
   (c) whenever time changes according to incoming request records, check expired user sessions and print out them into output file;
   (d) when the end of input file is reached, print out all the user sessions still left in "sortedUserSessions" into output file.
 
-* initialization 
+* Initialization 
 
   reader: open input data file (log.csv);
   writer: open output result file (sessionization.txt);
@@ -151,26 +144,28 @@ It's the core class of this project for dealing with business logics. Its primar
 * process request records one by one (below are pseudo codes)
 {
   prevReqTime = 1L; // a local variable (in milliseconds)
+
   while (read a new non-null line into strLine) {
 
-	parse the line into RequestLog (ip: String, dateTime: Date);
+	   parse the line into RequestLog (ip: String, dateTime: Date);
 	
-	if (dateTime.getTime() > prevReqTime) {
-		// time changes (because the date and time info of current request record are different from those of previous one).
+	   if (dateTime.getTime() > prevReqTime) {
+
+		    // time changes (because the date and time info of current request record are different from those of previous one).
 		
-		prevReqTime = dateTime.getTime();
-		check and output expired users sessions from sortedUserSessions;
-    }
+		    prevReqTime = dateTime.getTime();
+		    check and output expired users sessions from sortedUserSessions;
+     }
 		
-	if (ip2UserSessions.get(ip) != null) {
-		// merge the request record into existing user session
+	   if (ip2UserSessions.get(ip) != null) {
+		    // merge the request record into existing user session
 		
-		userSession = ip2UserSessions.get(ip);
-		remove it from sortedUserSessions;
-		update userSession (endDateTime, expirationTimeInSeconds, docCount);
-		add it into sortedUserSessions.
-	} else {
-		// create a new user session with this request record
+		    userSession = ip2UserSessions.get(ip);
+		    remove it from sortedUserSessions;
+		    update userSession (endDateTime, expirationTimeInSeconds, docCount);
+		    add it into sortedUserSessions.
+	    } else {
+		    // create a new user session with this request record
 		
         userSession = new UserSession(getNextSerialNumber());
         userSession.setIP(ip);
@@ -180,19 +175,21 @@ It's the core class of this project for dealing with business logics. Its primar
 
         ip2UserSessions.put(ip, userSession);
         sortedUserSessions.add(userSession);
-	}
+	    }
   }
-}
 
-// the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
-// NOTE: since it's required that these user sessions be written out in the order in which they were listed in input file,
-//       these user sessions have to be sorted in the ascending order of startDateTime and/or serial number.
+  // the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
+
+  // NOTE: since it's required that these user sessions be written out in the order in which they were listed in input file,
+
+  // these user sessions have to be sorted in the ascending order of startDateTime and/or serial number.
 
   if (ip2UserSessions is not empty) {
       if 2 or more items left, sort the left user sessions in ascending order of startDateTime and/or serial number;
 
       write them into output file one by one.
   }
+}
 
 * clean up
 
