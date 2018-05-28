@@ -1,10 +1,10 @@
 
-# Code challenge for Analysis of SEC EDGAR Web Logs
+Code challenge for Analysis of SEC EDGAR Web Logs
 
 # 1. resources (references)
 
-Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
-EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
+* Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
+* EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
 
 # 2. my github repo "dx-edgar-analytics"
 
@@ -34,26 +34,25 @@ TestNG is a dependent library which is used do unit-testing on some methods of i
 * directly run script file "run.sh" to compile and run this project;
 
 * or alternatively take the following 2 steps to compile and run this project, respectively:
-{
-run this command to compile it: 
 
-`mvn clean install -f ./src/sec-log-processor/pom.xml`
+	> run this command to compile it: 
 
-use this command to run it:
+	`mvn clean install -f ./src/sec-log-processor/pom.xml`
 
-`java -cp ./src/sec-log-processor/target/sec-log-processor-0.0.1-SNAPSHOT.jar \
+	> use this command to run it:
+
+	`java -cp ./src/sec-log-processor/target/sec-log-processor-0.0.1-SNAPSHOT.jar \
         com.log.sec.DataAnalyzer \
         ./input/inactivity_period.txt \
         ./input/log.csv \
         ./output/sessionization.txt`
-}
         
 Here is my local environment to compile and run this project:
 
-System: MacOS Sierra (v.10.12.6).
-Apache Maven: version 3.2.5 (for compiling java maven project).
-TestNG: v6.8.7 (for java unit-testing).
-Java: version 1.8.0_72 
+    System: MacOS Sierra (v.10.12.6).
+    Apache Maven: version 3.2.5 (for compiling java maven project).
+    TestNG: v6.8.7 (for java unit-testing).
+    Java: version 1.8.0_72 
 
 NOTE: I tried to avoid those new features of Java 1.8, so it might also work with other old versions of Java.
 In addition, both Eclipse IDE and bash shell script were able to compile and run this project successfully on MacOS Sierra.
@@ -84,14 +83,14 @@ zone field is not in BOLD, so default time zone is used while parsing date and t
 ## (3) Model Class "UserSession"
 
 It has the following class members:
-{
+
 - ip: the first field info extracted from a request record, it uniquely identifies a user.
 - serialNumber:  the serial number assigned for this session when this session is created.
 - startDateTime: the Date object parsed from the date and time info of the first request record of this session.
 - endDateTime: the Date object parsed from the date and time info of the last request record of this session.
 - expirationTimeInSeconds: it is when will this session become expired ( endDateTime.getTime()/1000 + inactivity_period + 1 second).
 - docCount: number of documents requested during this session.
-}
+
 
 The duration of a user session can be calculated through startDateTime and endDateTime as follows:
 
@@ -99,7 +98,7 @@ The duration of a user session can be calculated through startDateTime and endDa
 	
 To output a user session into output file, only the following info items are printed:
 
-{ip, startDateTime,	endDateTime, "duration" (derived from startDateTime and endDateTime), docCount}
+    {ip, startDateTime,	endDateTime, "duration" (derived from startDateTime and endDateTime), docCount}
 
 ## (4) data structures
 
@@ -132,27 +131,27 @@ this data structure.
 
 It's the core class of this project for dealing with business logics. Its primary functionalities include:
 
-(a) read a request record from input file;
-(b) parse the request record, then either merge it into some existing user session or create a new user session with this info,
-and further update data buffers (ip2UserSessions and sortedUserSessions) with this user session;
+  (a) read a request record from input file;
+  (b) parse the request record, then either merge it into some existing user session or create a new user session with this info,
+      and further update data buffers (ip2UserSessions and sortedUserSessions) with this user session;
 
-(b) whenever time changes according to incoming request records, check expired user sessions and print out them into output file;
-(c) when the end of input file is reached, print out all the user sessions still left in "sortedUserSessions" into output file.
+  (c) whenever time changes according to incoming request records, check expired user sessions and print out them into output file;
+  (d) when the end of input file is reached, print out all the user sessions still left in "sortedUserSessions" into output file.
 
 * initialization 
 
-reader: open input data file (log.csv);
-writer: open output result file (sessionization.txt);
-DateTimeUtil.ttlInSeconds: read TTL value from input file (inactivity_period.txt);
+  reader: open input data file (log.csv);
+  writer: open output result file (sessionization.txt);
+  DateTimeUtil.ttlInSeconds: read TTL value from input file (inactivity_period.txt);
 
-snGenerator: instantiate a serial number counter;
-ip2UserSessions: instantiate this data buffer using HashMap<String, UserSession>;
-sortedUserSessions: instantiate this data buffer using TreeSet<UserSession>.
+  snGenerator: instantiate a serial number counter;
+  ip2UserSessions: instantiate this data buffer using HashMap<String, UserSession>;
+  sortedUserSessions: instantiate this data buffer using TreeSet<UserSession>.
 
 * process request records one by one (below are pseudo codes)
-
-prevReqTime = 1L; // a local variable (in milliseconds)
-while (read a new non-null line into strLine) {
+{
+  prevReqTime = 1L; // a local variable (in milliseconds)
+  while (read a new non-null line into strLine) {
 
 	parse the line into RequestLog (ip: String, dateTime: Date);
 	
@@ -182,17 +181,18 @@ while (read a new non-null line into strLine) {
         ip2UserSessions.put(ip, userSession);
         sortedUserSessions.add(userSession);
 	}
+  }
 }
 
 // the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
 // NOTE: since it's required that these user sessions be written out in the order in which they were listed in input file,
 //       these user sessions have to be sorted in the ascending order of startDateTime and/or serial number.
 
-if (ip2UserSessions is not empty) {
-    if 2 or more items left, sort the left user sessions in ascending order of startDateTime and/or serial number;
+  if (ip2UserSessions is not empty) {
+      if 2 or more items left, sort the left user sessions in ascending order of startDateTime and/or serial number;
 
-    write them into output file one by one.
-}
+      write them into output file one by one.
+  }
 
 * clean up
 
