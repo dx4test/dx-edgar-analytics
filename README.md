@@ -84,12 +84,12 @@ zone field is not in BOLD, so default time zone is used while parsing date and t
 
 It has the following class members:
 
-- ip: the first field info extracted from a request record, it uniquely identifies a user.
-- serialNumber:  the serial number assigned for this session when this session is created.
-- startDateTime: the Date object parsed from the date and time info of the first request record of this session.
-- endDateTime: the Date object parsed from the date and time info of the last request record of this session.
-- expirationTimeInSeconds: it is when will this session become expired ( endDateTime.getTime()/1000 + inactivity_period + 1 second).
-- docCount: number of documents requested during this session.
+  - ip: the first field info extracted from a request record, it uniquely identifies a user.
+  - serialNumber:  the serial number assigned for this session when this session is created.
+  - startDateTime: the Date object parsed from the date and time info of the first request record of this session.
+  - endDateTime: the Date object parsed from the date and time info of the last request record of this session.
+  - expirationTimeInSeconds: it is when will this session become expired ( `endDateTime.getTime()/1000 + inactivity_period + 1 second` ).
+  - docCount: number of documents requested during this session.
 
 
 The duration of a user session can be calculated through startDateTime and endDateTime as follows:
@@ -102,14 +102,14 @@ To output a user session into output file, only the following info items are pri
 
 ## (4) Data structures
 
-* HashMap "ip2UserSessions"
+### * HashMap `ip2UserSessions`
 
 It maps an ip string to a UserSession object through classic data structure "hashtable".
 
 It's very fast (time complexity of amortized O(1)) to check if an incoming request record should be
 either merged into some existing user session, or used to generate a new user session.
 
-* TreeSet "sortedUserSessions"
+### * TreeSet `sortedUserSessions`
 
 Java class TreeSet is essentially a balanced binary search tree implemented through Red-Black Tree. Its add, remove, and contains methods have time complexity of O(logn); moreover, the time complexity is only O(1) for peeking and polling the elements from its head or tail.
 
@@ -120,10 +120,10 @@ NOTE: when some existing user session need be updated with another endDateTime (
 
 ## (5) Work-flow of Main Class "DataAnalyzer"
 
-* Summary
+### * Summary
 
 It's the core class of this project for dealing with business logics. Its primary functionalities include:
-
+{
   (a) read a request record from input file;
 
   (b) parse the request record, then either merge it into some existing user session or create a new user session with this info, and further update data buffers (ip2UserSessions and sortedUserSessions) with this user session;
@@ -131,8 +131,9 @@ It's the core class of this project for dealing with business logics. Its primar
   (c) whenever time changes according to incoming request records, check expired user sessions and print out them into output file;
 
   (d) when the end of input file is reached, print out all the user sessions still left in "sortedUserSessions" into output file.
+}
 
-* Initialization 
+### * Initialization 
 
 {
   reader: open input data file (log.csv);
@@ -148,25 +149,25 @@ It's the core class of this project for dealing with business logics. Its primar
   sortedUserSessions: instantiate this data buffer using TreeSet<UserSession>.
 }
 
-* process request records one by one (below are pseudo codes)
+### * process request records one by one (below are pseudo codes)
 
 {
+   prevReqTime = 1L; // a local variable (in milliseconds)
 
-  prevReqTime = 1L; // a local variable (in milliseconds)
+   while (read a new non-null line into strLine) 
+   {
 
-  while (read a new non-null line into strLine) {
-
-	   parse the line into RequestLog (ip: String, dateTime: Date);
+	    parse the line into RequestLog (ip: String, dateTime: Date);
 	
-	   if (dateTime.getTime() > prevReqTime) {
+	    if (dateTime.getTime() > prevReqTime) {
 
 		    // time changes (because the date and time info of current request record are different from those of previous one).
 		
 		    prevReqTime = dateTime.getTime();
 		    check and output expired users sessions from sortedUserSessions;
-     }
+      }
 		
-	   if (ip2UserSessions.get(ip) != null) {
+	    if (ip2UserSessions.get(ip) != null) {
 
 		    // merge the request record into existing user session
 		
@@ -190,21 +191,22 @@ It's the core class of this project for dealing with business logics. Its primar
 
 	    }
 
-  }
+   }
 
-  // the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
+   // the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
 
-  // NOTE: since it's required that these user sessions be written out in the order in which they were listed in input file,
+   // NOTE: since it's required that these user sessions be written out in the order in which they were listed in input file,
 
-  // these user sessions have to be sorted in the ascending order of startDateTime and/or serial number.
+   // these user sessions have to be sorted in the ascending order of startDateTime and/or serial number.
 
-  if (ip2UserSessions is not empty) {
+   if (ip2UserSessions is not empty) 
+   {
       if 2 or more items left, sort the left user sessions in ascending order of startDateTime and/or serial number;
 
       write them into output file one by one.
-  }
+   }
 }
 
-* clean up
+### * clean up
 
 close and clean up resources.
