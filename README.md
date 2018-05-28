@@ -1,7 +1,7 @@
 
-Code challenge for Analysis of SEC EDGAR Web Logs
+# Code challenge for Analysis of SEC EDGAR Web Logs #
 
-# 1. Resources (references)
+# 1. References
 
 * Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
 * EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
@@ -61,35 +61,28 @@ In addition, both Eclipse IDE and bash shell script were able to compile and run
 
 ## (1) Serial number
 
-This project requires that a collection of expired user sessions be written into output file in the order in which their 
-corresponding request log records were listed in input file if their ending date-time info and/or starting date-time
-info are the same; and also the same requirement is applied to a collection of active user sessions having the same starting
-date-time info when the end of input file is reached.
+This project requires that a collection of expired user sessions be written into output file in the order in which their corresponding request log records were listed in input file if their ending date-time info and/or starting date-time info are the same; and also the same requirement is applied to a collection of active user sessions having the same starting date-time info when the end of input file is reached.
 
-To meet the above requirements, a serial number counter of type long is introduced for user sessions; whenever a new user session
-need be generated, the serial number counter is increased by one, and its current value is assigned to the user session. The
-serial number together with request data times helps ensure user sessions are written out in the specified order.
+To meet the above requirements, a serial number counter of type long is introduced for user sessions; whenever a new user session need be generated, the serial number counter is increased by one, and its current value is assigned to the user session. The serial number together with request data times helps ensure user sessions are written out in the specified order.
 
 ## (2) Utility class "DateTimeUtil"
 
-It helps combine together the date and time info of a request record into a string in format "yyyy-MM-dd HH:mm:ss", and then
-parse the combined string into an object of type java.util.Date.
+It helps combine together the date and time info of a request record into a string in format "yyyy-MM-dd HH:mm:ss", and then parse the combined string into an object of type java.util.Date.
 
-It also keeps a global constant "ttlInSeconds" (i.e. inactivity period).
+It also keeps a global constant "`ttlInSeconds`" (i.e. inactivity period).
 
-NOTE: According to READ.md of the repo "insight edgar-analytics", we are required to consider only those fields in BOLD; the
-zone field is not in BOLD, so default time zone is used while parsing date and time info into a Date object.
+NOTE: According to READ.md of the repo "insight edgar-analytics", we are required to consider only those fields in BOLD; the zone field is not in BOLD, so default time zone is used while parsing date and time info into a Date object.
 
 ## (3) Model class "UserSession"
 
 It has the following class members:
 
-  - ip: the first field info extracted from a request record, it uniquely identifies a user.
-  - serialNumber:  the serial number assigned for this session when this session is created.
-  - startDateTime: the Date object parsed from the date and time info of the first request record of this session.
-  - endDateTime: the Date object parsed from the date and time info of the last request record of this session.
-  - expirationTimeInSeconds: it is when will this session become expired ( `endDateTime.getTime()/1000 + inactivity_period + 1 second` ).
-  - docCount: number of documents requested during this session.
+  - `ip`: the first field info extracted from a request record, it uniquely identifies a user.
+  - `serialNumber`:  the serial number assigned for this session when this session is created.
+  - `startDateTime`: the Date object parsed from the date and time info of the first request record of this session.
+  - `endDateTime`: the Date object parsed from the date and time info of the last request record of this session.
+  - `expirationTimeInSeconds`: it is when will this session become expired ( `endDateTime.getTime()/1000 + inactivity_period + 1 second` ).
+  - `docCount`: number of documents requested during this session.
 
 
 The duration of a user session can be calculated through startDateTime and endDateTime as follows:
@@ -136,22 +129,22 @@ It's the core class of this project for dealing with business logics. Its primar
 ### * Initialization 
 
 {
-  reader: open input data file (log.csv);
+  `reader`: open input data file (log.csv);
 
-  writer: open output result file (sessionization.txt);
+  `writer`: open output result file (sessionization.txt);
 
-  DateTimeUtil.ttlInSeconds: read TTL value from input file (inactivity_period.txt);
+  `DateTimeUtil.ttlInSeconds`: read TTL value from input file (inactivity_period.txt);
 
-  snGenerator: instantiate a serial number counter;
+  `snGenerator`: instantiate a serial number counter;
 
-  ip2UserSessions: instantiate this data buffer using HashMap<String, UserSession>;
+  `ip2UserSessions`: instantiate this data buffer using HashMap<String, UserSession>;
 
-  sortedUserSessions: instantiate this data buffer using TreeSet<UserSession>.
+  `sortedUserSessions`: instantiate this data buffer using TreeSet<UserSession>.
 }
 
-### * process request records one by one (below are pseudo codes)
+### * Process request records one by one (below are pseudo codes)
 
-{
+
    prevReqTime = 1L; // a local variable (in milliseconds)
 
    while (read a new non-null line into strLine) 
@@ -179,8 +172,8 @@ It's the core class of this project for dealing with business logics. Its primar
 	    } else {
 
 		    // create a new user session with this request record
-		
-        userSession = new UserSession(getNextSerialNumber());
+
+		    userSession = new UserSession(getNextSerialNumber());
         userSession.setIP(ip);
         userSession.setStartDateTime(dateTime);
         userSession.setEndDateTime(dateTime); // internally 'expirationTimeInSeconds' is also updated.
@@ -199,13 +192,13 @@ It's the core class of this project for dealing with business logics. Its primar
 
    // these user sessions have to be sorted in the ascending order of startDateTime and/or serial number.
 
-   if (ip2UserSessions is not empty) 
-   {
+   if (ip2UserSessions is not empty) {
+
       if 2 or more items left, sort the left user sessions in ascending order of startDateTime and/or serial number;
 
       write them into output file one by one.
    }
-}
+
 
 ### * clean up
 
