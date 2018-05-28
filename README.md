@@ -125,24 +125,33 @@ NOTE: when some existing user session need be updated with another endDateTime (
 It's the core class of this project for dealing with business logics. Its primary functionalities include:
 
   (a) read a request record from input file;
-  (b) parse the request record, then either merge it into some existing user session or create a new user session with this info,
-      and further update data buffers (ip2UserSessions and sortedUserSessions) with this user session;
+
+  (b) parse the request record, then either merge it into some existing user session or create a new user session with this info, and further update data buffers (ip2UserSessions and sortedUserSessions) with this user session;
 
   (c) whenever time changes according to incoming request records, check expired user sessions and print out them into output file;
+
   (d) when the end of input file is reached, print out all the user sessions still left in "sortedUserSessions" into output file.
 
 * Initialization 
 
+{
   reader: open input data file (log.csv);
+
   writer: open output result file (sessionization.txt);
+
   DateTimeUtil.ttlInSeconds: read TTL value from input file (inactivity_period.txt);
 
   snGenerator: instantiate a serial number counter;
+
   ip2UserSessions: instantiate this data buffer using HashMap<String, UserSession>;
+
   sortedUserSessions: instantiate this data buffer using TreeSet<UserSession>.
+}
 
 * process request records one by one (below are pseudo codes)
+
 {
+
   prevReqTime = 1L; // a local variable (in milliseconds)
 
   while (read a new non-null line into strLine) {
@@ -158,13 +167,16 @@ It's the core class of this project for dealing with business logics. Its primar
      }
 		
 	   if (ip2UserSessions.get(ip) != null) {
+
 		    // merge the request record into existing user session
 		
 		    userSession = ip2UserSessions.get(ip);
 		    remove it from sortedUserSessions;
 		    update userSession (endDateTime, expirationTimeInSeconds, docCount);
 		    add it into sortedUserSessions.
+
 	    } else {
+
 		    // create a new user session with this request record
 		
         userSession = new UserSession(getNextSerialNumber());
@@ -175,7 +187,9 @@ It's the core class of this project for dealing with business logics. Its primar
 
         ip2UserSessions.put(ip, userSession);
         sortedUserSessions.add(userSession);
+
 	    }
+
   }
 
   // the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
