@@ -6,7 +6,7 @@
 2. [My repo dx-edgar-analytics](README.md#my-repo-dx-edgar-analytics)
 3. [Dependencies: Java, Maven and TestNG](README.md#dependencies-java-maven-and-testng)
 4. [How to compile and run this project](README.md#how-to-compile-and-run-this-project)
-5. [My solution to this code challenge](README.md#my-solution-to-this-code-chanllenge)
+5. [My solution to this code challenge](README.md#my-solution-to-this-code-challenge)
 
 # References
 
