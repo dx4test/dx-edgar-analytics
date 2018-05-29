@@ -2,24 +2,24 @@
 # Code challenge for Analysis of SEC EDGAR Web Logs #
 
 # Table of Contents
-[1. References](README.md#references)
-[2. My repo dx-edgar-analytics](README.md#my-repo-dx-edgar-analytics)
-[3. Dependencies: Java, Maven and TestNG](README.md#dependencies-java-maven-and-testng)
-[4. How to compile and run this project](README.md#how-to-compile-and-run-this-project)
-[5. My solution to this code challenge](README.md#my-solution-to-to-this-code-chanllenge)
+1. [References](README.md#references)
+2. [My repo dx-edgar-analytics](README.md#my-repo-dx-edgar-analytics)
+3. [Dependencies: Java, Maven and TestNG](README.md#dependencies-java-maven-and-testng)
+4. [How to compile and run this project](README.md#how-to-compile-and-run-this-project)
+5. [My solution to this code challenge](README.md#my-solution-to-to-this-code-chanllenge)
 
-# 1. References
+# References
 
 * Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
 * EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
 
-# 2. My repo dx-edgar-analytics
+# My repo dx-edgar-analytics
 
 https://github.com/dx4test/dx-edgar-analytics
 
 This repo directory structure is the same as that of Insight's Edgar-Analytics Repo.
 
-# 3. Dependencies: Java, Maven and TestNG
+# Dependencies: Java, Maven and TestNG
 	
 This project is implemented in Java, and compiled using Maven.
 	
@@ -34,7 +34,7 @@ TestNG is a dependent library which is used do unit-testing on some methods of i
 	  <scope>test</scope>
 	</dependency>
  
-# 4. How to compile and run this project
+# How to compile and run this project
 
 * go to home directory (or the top-most directory) of project "dx-edgar-analytics" which has the same directory structure as Insight's repo.
 
@@ -64,7 +64,7 @@ Here is my local environment to compile and run this project:
 NOTE: I tried to avoid those new features of Java 1.8, so it might also work with other old versions of Java.
 In addition, both Eclipse IDE and bash shell script were able to compile and run this project successfully on MacOS Sierra.
 
-# 5. My solution to this code challenge
+# My solution to this code challenge
 
 ## (1) Serial number
 
