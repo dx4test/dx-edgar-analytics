@@ -1,12 +1,19 @@
 
 # Code challenge for Analysis of SEC EDGAR Web Logs #
 
+# Table of Contents
+[1. References](README.md#references)
+[2. My repo `dx-edgar-analytics`](README.md#my-repo)
+[3. Dependencies: Java, Maven and TestNG](README.md#dependencies)
+[4. How to compile and run this project](README.md#how-to-compile-run)
+[5. My solution to this code challenge of data engineering](README.md#my-solution)
+
 # 1. References
 
 * Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
 * EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
 
-# 2. My github repo "dx-edgar-analytics"
+# 2. My repo `dx-edgar-analytics`
 
 https://github.com/dx4test/dx-edgar-analytics
 
@@ -143,7 +150,6 @@ It's the core class of this project for dealing with business logics. Its primar
 
 
 ### * Process request records one by one (below are pseudo codes)
-{
 
    prevReqTime = 1L; // a local variable (in milliseconds)
 
@@ -158,6 +164,7 @@ It's the core class of this project for dealing with business logics. Its primar
 		
 		    prevReqTime = dateTime.getTime();
 		    check and output expired users sessions from sortedUserSessions;
+
       }
 		
 	    if (ip2UserSessions.get(ip) != null) {
@@ -199,7 +206,6 @@ It's the core class of this project for dealing with business logics. Its primar
       write them into output file one by one.
    }
 
-}
 
 ### * clean up
 
