@@ -77,17 +77,17 @@ It helps combine together the date and time info of a request record into a stri
 
 It also keeps a global constant "`ttlInSeconds`" (i.e. inactivity period).
 
-NOTE: According to READ.md of the repo "insight edgar-analytics", we are required to consider only those fields in BOLD; the zone field is not in BOLD, so default time zone is used while parsing date and time info into a Date object.
+NOTE: According to README.md of the repo "insight edgar-analytics", we are required to consider only those fields in BOLD; the zone field is not in BOLD, so default time zone is used while parsing date and time info into a Date object.
 
 ## (3) Model class "UserSession"
 
 It has the following class members:
 
   - `ip`: the first field info extracted from a request record, it uniquely identifies a user.
-  - `serialNumber`:  the serial number assigned for this session when this session is created.
+  - `serialNumber`:  the serial number assigned for a session only when the session is created.
   - `startDateTime`: the Date object parsed from the date and time info of the first request record of this session.
   - `endDateTime`: the Date object parsed from the date and time info of the last request record of this session.
-  - `expirationTimeInSeconds`: it is when will this session become expired ( `endDateTime.getTime()/1000 + inactivity_period + 1 second` ).
+  - `expirationTimeInSeconds`: it is when this session will become expired ( `endDateTime.getTime()/1000 + inactivity_period + 1 second` ).
   - `docCount`: number of documents requested during this session.
 
 
@@ -95,7 +95,7 @@ The duration of a user session can be calculated through startDateTime and endDa
 
 	(endDateTime.getTime() - startDateTime.getTime())/1000 + 1 second
 	
-To output a user session into output file, only the following info items are printed:
+To output a user session into output file, only the following info items are printed out:
 
     {ip, startDateTime,	endDateTime, "duration" (derived from startDateTime and endDateTime), docCount}
 
@@ -149,9 +149,9 @@ It's the core class of this project for dealing with business logics. Its primar
 
 ### * Process request records one by one (below are pseudo codes)
 
-   prevReqTime = 1L; // a local variable (in milliseconds)
+   prevReqTime = -1L; // a local variable (in milliseconds)
 
-   while (read a new non-null line into strLine) 
+   while (read next non-null request record into strLine) 
    {
 
 	    parse the line into RequestLog (ip: String, dateTime: Date);
@@ -191,15 +191,15 @@ It's the core class of this project for dealing with business logics. Its primar
 
    }
 
-   // Since the end of input file is reached, write into output file all the left user sessions in ip2UserSessions regardless of expiration.
+   // Since the end of input file is reached, write into output file all the user sessions left in ip2UserSessions regardless of expiration.
 
    // NOTE: since it's required that these user sessions be written out in the order in which they were listed in input file,
 
-   // these user sessions have to be sorted in the ascending order of startDateTime and/or serial number.
+   // these user sessions have to be sorted in the ascending order of startDateTime and/or serial number before they are printed out.
 
    if (ip2UserSessions is not empty) {
 
-      if 2 or more items left, sort the left user sessions in ascending order of startDateTime and/or serial number;
+      if 2 or more items are left, sort the left user sessions in ascending order of startDateTime and/or serial number;
 
       write them into output file one by one.
    }
