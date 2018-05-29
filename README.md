@@ -1,7 +1,7 @@
 
 # Code challenge for Analysis of SEC EDGAR Web Logs
 
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) NOTE: `due to storage limit on a github account, didn't check in input files for my load-testing on this project. But load or scalability testing was done locally on input file `log20170630.csv` (2.73GB, downloaded from SEC EDGAR website) by configuring inacitivity_period from 1 second to 24 hours.`![#f03c15](https://placehold.it/15/f03c15/000000?text=+) 
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) NOTE: `due to storage limit on a github account, didn't check in input files for my load-testing's on this project. But load or scalability testing's were done locally on input file `log20170630.csv` (2.73GB, downloaded from SEC EDGAR website) by configuring inacitivity_period from 1 second to 24 hours.`![#f03c15](https://placehold.it/15/f03c15/000000?text=+) 
 
 # Table of Contents
 1. [References](README.md#references)
