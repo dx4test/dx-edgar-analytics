@@ -1,5 +1,7 @@
 
-# Code challenge for Analysis of SEC EDGAR Web Logs #
+# Code challenge for Analysis of SEC EDGAR Web Logs
+
+NOTE: due to storage limit on a github account, load or scalability testing was done only locally on input file `dx-log.csv` (larger than 2.5GB) by configuring inacitivity_period from 1 second to 24 hours.
 
 # Table of Contents
 1. [References](README.md#references)
