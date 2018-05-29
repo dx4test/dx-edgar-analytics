@@ -6,7 +6,7 @@
 2. [My repo dx-edgar-analytics](README.md#my-repo-dx-edgar-analytics)
 3. [Dependencies: Java, Maven and TestNG](README.md#dependencies-java-maven-and-testng)
 4. [How to compile and run this project](README.md#how-to-compile-and-run-this-project)
-5. [My solution to this code challenge](README.md#my-solution-to-to-this-code-chanllenge)
+5. [My solution to this code challenge](README.md#my-solution-to-this-code-chanllenge)
 
 # References
 
@@ -104,14 +104,13 @@ To output a user session into output file, only the following info items are pri
 
 ### * HashMap `ip2UserSessions`
 
-It maps an ip string to a UserSession object through classic data structure "hashtable".
+It maps an ip string to a UserSession object through classic data structure `hashtable`.
 
-It's very fast (time complexity of amortized O(1)) to check if an incoming request record should be
-either merged into some existing user session, or used to generate a new user session.
+It's very fast (time complexity of `amortized O(1)`) to check if an incoming request record should be either merged into some existing user session, or used to generate a new user session.
 
 ### * TreeSet `sortedUserSessions`
 
-Java class TreeSet is essentially a balanced binary search tree implemented through Red-Black Tree. Its add, remove, and contains methods have time complexity of O(logn); moreover, the time complexity is only O(1) for peeking and polling the elements from its head or tail.
+Java class TreeSet is essentially a `balanced binary search tree` implemented through `Red-Black Tree`. Its add, remove, and contains methods have time complexity of `O(logn)`; moreover, the time complexity is only `O(1)` for peeking and polling the elements from its head or tail.
 
 It's used to maintain a collection of user sessions which are sorted in ascending order of
 expirationTimeInSeconds and/or serialNumber. By this data structure, it's super fast to check which user sessions have been expired by starting from its head; also it's still fast enough for adding and removing some user session to/from this data structure when inserting a new user session or updating some existing user session.
