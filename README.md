@@ -47,11 +47,11 @@ TestNG is a dependent library which is used do unit-testing on some methods of i
 
 	> use this command to run it:
 
-	  `java -cp ./src/sec-log-processor/target/sec-log-processor-0.0.1-SNAPSHOT.jar \
-        com.log.sec.DataAnalyzer \
-        ./input/inactivity_period.txt \
-        ./input/log.csv \
-        ./output/sessionization.txt`
+	  java -cp ./src/sec-log-processor/target/sec-log-processor-0.0.1-SNAPSHOT.jar \
+          com.log.sec.DataAnalyzer \
+          ./input/inactivity_period.txt \
+          ./input/log.csv \
+          ./output/sessionization.txt
         
 Here is my local environment to compile and run this project:
 
