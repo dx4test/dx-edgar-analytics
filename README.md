@@ -16,7 +16,7 @@
 
 https://github.com/dx4test/dx-edgar-analytics
 
-This repo directory structure is the same as that of Insight's Edgar-Analytics Repo.
+The directory structure of this repo is the same as that of Insight's Edgar-Analytics Repo.
 
 # Dependencies: Java, Maven and TestNG
 	
@@ -47,7 +47,7 @@ TestNG is a dependent library which is used do unit-testing on some methods of i
 
 	> use this command to run it:
 
-	`java -cp ./src/sec-log-processor/target/sec-log-processor-0.0.1-SNAPSHOT.jar \
+	  `java -cp ./src/sec-log-processor/target/sec-log-processor-0.0.1-SNAPSHOT.jar \
         com.log.sec.DataAnalyzer \
         ./input/inactivity_period.txt \
         ./input/log.csv \
