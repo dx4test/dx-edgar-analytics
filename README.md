@@ -3,17 +3,17 @@
 
 # Table of Contents
 [1. References](README.md#references)
-[2. My repo `dx-edgar-analytics`](README.md#my-repo)
-[3. Dependencies: Java, Maven and TestNG](README.md#dependencies)
-[4. How to compile and run this project](README.md#how-to-compile-run)
-[5. My solution to this code challenge of data engineering](README.md#my-solution)
+[2. My repo dx-edgar-analytics](README.md#my-repo-dx-edgar-analytics)
+[3. Dependencies: Java, Maven and TestNG](README.md#dependencies-java-maven-and-testng)
+[4. How to compile and run this project](README.md#how-to-compile-and-run-this-project)
+[5. My solution to this code challenge](README.md#my-solution-to-to-this-code-chanllenge)
 
 # 1. References
 
 * Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
 * EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
 
-# 2. My repo `dx-edgar-analytics`
+# 2. My repo dx-edgar-analytics
 
 https://github.com/dx4test/dx-edgar-analytics
 
@@ -64,7 +64,7 @@ Here is my local environment to compile and run this project:
 NOTE: I tried to avoid those new features of Java 1.8, so it might also work with other old versions of Java.
 In addition, both Eclipse IDE and bash shell script were able to compile and run this project successfully on MacOS Sierra.
 
-# 5. My solution to this code challenge of data engineering
+# 5. My solution to this code challenge
 
 ## (1) Serial number
 
