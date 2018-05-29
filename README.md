@@ -1,19 +1,16 @@
 
-# Code challenge for Analysis of SEC EDGAR Web Logs
+# Data Analytics on SEC EDGAR Web Logs
 
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) NOTE: `due to storage limit on a github account, didn't check in input files for my load-testing's on this project. But load or scalability testing's were done locally on input file `log20170630.csv` (2.73GB, downloaded from SEC EDGAR website) by configuring inacitivity_period from 1 second to 24 hours.`![#f03c15](https://placehold.it/15/f03c15/000000?text=+) 
 
+(by Daniel Xiong)
+
 # Table of Contents
-1. [References](README.md#references)
-2. [My repo dx-edgar-analytics](README.md#my-repo-dx-edgar-analytics)
-3. [Dependencies: Java, Maven and TestNG](README.md#dependencies-java-maven-and-testng)
-4. [How to compile and run this project](README.md#how-to-compile-and-run-this-project)
-5. [My solution to this code challenge](README.md#my-solution-to-this-code-challenge)
-
-# References
-
-* Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
-* EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
+1. [My repo dx-edgar-analytics](README.md#my-repo-dx-edgar-analytics)
+2. [Dependencies: Java, Maven and TestNG](README.md#dependencies-java-maven-and-testng)
+3. [How to compile and run this project](README.md#how-to-compile-and-run-this-project)
+4. [My solution to this code challenge](README.md#my-solution-to-this-code-challenge)
+5. [References](README.md#references)
 
 # My repo dx-edgar-analytics
 
@@ -211,3 +208,8 @@ It's the core class of this project for dealing with business logics. Its primar
 ### * clean up
 
 close and clean up resources.
+
+# References
+
+* Insight's Edgar-Analytics Repo: https://github.com/InsightDataScience/edgar-analytics 
+* EDGAR Log File Data Set: https://www.sec.gov/dera/data/edgar-log-file-data-set.html
